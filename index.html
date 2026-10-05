@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiAudience - Real-time Audience Profiling | Milieu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   Milieu — MiAudience page (replaces /portraits/)
+   Styles taken from the live mili.eu/portraits/ page:
+   nav.css (shared nav), pages.css (footer) and pv-portraits.css (page).
+   ═══════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Archivo', sans-serif; background: #fff; color: #0B0F1A;
+  line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  padding-top: 64px;
+}
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --primary:      #0067C2;
+  --primary-dark: #004fa0;
+  --cyan:         #00AEE2;
+  --bright-blue:  #48ADFF;
+  --black:        #242423;
+  --white:        #ffffff;
+  --bg:           #F1F1F1;
+  --gray-mid:     #4A4A48;
+  --gray-sub:     #8C8C8C;
+  --dark-bg:      #1A1A1A;
+  --radius-card:  16px;
+  --radius-btn:   9999px;
+}
+
+/* ─── NAV (nav.css) ─── */
+#main-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 999; height: 64px;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 48px;
+  background: rgba(241,241,241,0.88);
+  backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(0,0,0,0.06); transition: box-shadow 0.3s ease;
+}
+#main-nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
+#main-nav .nav-logo-link { display: inline-flex; align-items: center; }
+#main-nav .nav-logo { height: 30px; width: auto; display: block; }
+#main-nav .nav-links {
+  display: flex; align-items: center; gap: 0;
+  position: absolute; left: 50%; transform: translateX(-50%);
+}
+#main-nav .nav-link {
+  font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 500; color: #4A4A48;
+  padding: 8px 14px; border-radius: 8px; white-space: nowrap;
+  background: none; border: 0; cursor: pointer; transition: color 0.18s ease, background 0.18s ease;
+}
+#main-nav .nav-link:hover { color: #242423; background: rgba(0,0,0,0.05); }
+#main-nav .nav-actions { display: flex; align-items: center; gap: 8px; }
+#main-nav .btn {
+  font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: -0.01em;
+  border: none; cursor: pointer; border-radius: 9999px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; transition: 0.18s ease;
+}
+#main-nav .btn-nav-outline { padding: 8px 16px; background: transparent; color: #4A4A48; border: 1.5px solid rgba(0,0,0,0.18); }
+#main-nav .btn-nav-outline:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.28); color: #242423; }
+#main-nav .btn-primary { padding: 8px 20px; background: #0067C2; color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.07); }
+#main-nav .btn-primary:hover { background: #004fa0; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+#main-nav .nav-item { position: relative; display: inline-flex; align-items: center; }
+#main-nav .nav-dd {
+  position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px);
+  min-width: 210px; background: #fff; border-radius: 12px; padding: 8px;
+  box-shadow: 0 18px 50px rgba(20,40,90,.18); opacity: 0; visibility: hidden; transition: 0.18s ease; z-index: 200;
+}
+@media (hover: hover) and (pointer: fine) {
+  #main-nav .nav-item:hover .nav-dd, #main-nav .nav-item:focus-within .nav-dd { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+}
+#main-nav .nav-dd::before { content: ""; position: absolute; bottom: 100%; left: 0; right: 0; height: 14px; }
+#main-nav .nav-dd a { display: block; padding: 9px 14px; color: #242423; font-size: 14.5px; font-weight: 500; border-radius: 8px; white-space: nowrap; }
+#main-nav .nav-dd a:hover { background: #eef4fc; color: #0067C2; }
+#main-nav .nav-toggle { display: none; width: 42px; height: 42px; flex-direction: column; justify-content: center;
+  align-items: center; gap: 5px; background: none; border: 0; cursor: pointer; padding: 0; }
+#main-nav .nav-toggle span { width: 22px; height: 2px; background: #242423; border-radius: 2px; transition: .2s ease; }
+body.nav-open #main-nav .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.nav-open #main-nav .nav-toggle span:nth-child(2) { opacity: 0; }
+body.nav-open #main-nav .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 1024px) {
+  #main-nav { padding: 0 16px; gap: 8px; }
+  #main-nav .nav-logo { height: 26px; }
+  #main-nav .nav-toggle { display: flex; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
+  #main-nav .nav-links {
+    position: fixed; top: 64px; left: 0; right: 0; height: calc(100dvh - 64px); transform: none;
+    flex-direction: column; align-items: stretch; background: #fff; padding: 12px 24px 40px;
+    overflow-y: auto; visibility: hidden; opacity: 0; transition: opacity .2s ease, visibility .2s ease;
+  }
+  body.nav-open #main-nav .nav-links { visibility: visible; opacity: 1; }
+  body.nav-open { overflow: hidden; }
+  #main-nav .nav-item { flex-direction: column; align-items: stretch; border-bottom: 1px solid rgba(0,0,0,.08); }
+  #main-nav .nav-item .nav-link { width: 100%; text-align: left; padding: 16px 4px; font-size: 17px; }
+  #main-nav .nav-dd,
+  #main-nav .nav-item:hover .nav-dd,
+  #main-nav .nav-item:focus-within .nav-dd { position: static; transform: none; opacity: 1; visibility: visible;
+    box-shadow: none; min-width: 0; padding: 0 0 10px; background: none; display: none; }
+  #main-nav .nav-item.open .nav-dd { display: block; }
+  #main-nav .nav-dd a { padding: 8px 12px; }
+  #main-nav .nav-actions { margin-right: 50px; }
+  #main-nav .nav-actions .btn-nav-outline { display: none; }
+  #main-nav .nav-actions .btn-primary { padding: 8px 14px; font-size: 13px; }
+}
+
+/* ─── BUTTONS (pv-portraits.css) ─── */
+.btn {
+  display: inline-flex; align-items: center;
+  border-radius: var(--radius-btn);
+  font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 14px;
+  padding: 10px 24px; border: none; cursor: pointer;
+  transition: all 0.2s ease; letter-spacing: -0.01em;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,103,194,0.25); transform: translateY(-1px); }
+.btn-white { background: white; color: var(--primary); }
+.btn-white:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.14); transform: translateY(-1px); }
+.btn-outline-white { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-outline-white:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.5); }
+.btn-lg { padding: 14px 32px; font-size: 15px; }
+.btn-cta-white { background: white; color: var(--primary); }
+.btn-cta-white:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.18); transform: translateY(-1px); }
+.btn-cta-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.35); }
+.btn-cta-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+
+/* ─── EYEBROW ─── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--gray-mid);
+  border: 1px solid rgba(0,0,0,0.12); border-radius: 100px;
+  padding: 6px 14px; margin-bottom: 24px;
+}
+.eyebrow-dark { color: rgba(255,255,255,0.55); border-color: rgba(255,255,255,0.15); }
+.eyebrow-primary { color: var(--primary); border-color: rgba(0,103,194,0.2); background: rgba(0,103,194,0.04); }
+.eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
+  animation: pulse-dot 2s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.6; } }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--dark-bg); padding: 136px 48px 96px;
+  min-height: 100vh; display: flex; align-items: center;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.hero-copy { max-width: 560px; }
+.hero-h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700; letter-spacing: -0.045em; line-height: 1.0;
+  color: white; margin-bottom: 24px;
+}
+.hero-sub {
+  font-size: clamp(15px, 1.6vw, 18px); color: rgba(255,255,255,0.5);
+  margin-bottom: 36px; line-height: 1.65; max-width: 460px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-stats { display: flex; flex-wrap: wrap; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.07); }
+.hero-stat {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-right: 32px; margin-right: 32px; border-right: 1px solid rgba(255,255,255,0.08);
+}
+.hero-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+.hero-stat-val { font-size: 22px; font-weight: 700; color: white; letter-spacing: -0.03em; line-height: 1; }
+.hero-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.hero-image-wrap { position: relative; border-radius: 20px; overflow: hidden; }
+.hero-image-wrap img { width: 100%; height: auto; display: block; }
+
+/* ─── LOGOS STRIP ─── */
+.logos-section { background: white; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 40px 0; overflow: hidden; }
+.logos-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--gray-sub); margin-bottom: 28px; padding: 0 48px;
+}
+.logos-track-wrap { position: relative; overflow: hidden; }
+.logos-track-wrap::before, .logos-track-wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+}
+.logos-track-wrap::before { left: 0; background: linear-gradient(to right, white, transparent); }
+.logos-track-wrap::after  { right: 0; background: linear-gradient(to left, white, transparent); }
+.logos-track { display: flex; gap: 64px; width: max-content; animation: marquee 28s linear infinite; }
+.logos-track:hover { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.logo-text {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(0,0,0,0.2); white-space: nowrap; transition: color 0.2s;
+}
+.logo-text:hover { color: rgba(0,0,0,0.45); }
+
+/* ─── SECTIONS ─── */
+.section { padding: 96px 48px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.bg-white { background: #ffffff; }
+.bg-light { background: var(--bg); }
+.section-h2 {
+  font-size: clamp(34px, 4.5vw, 52px);
+  font-weight: 800; letter-spacing: -0.035em; line-height: 1.06;
+  color: var(--black); margin-bottom: 16px;
+}
+
+/* ─── FEATURE BLOCKS (USPs) ─── */
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.feature-h2 {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 800; letter-spacing: -0.035em; line-height: 1.06;
+  color: var(--black); margin-bottom: 6px;
+}
+.feature-body { font-size: 16px; color: var(--gray-mid); line-height: 1.65; margin-bottom: 32px; }
+.feature-img-wrap { border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 40px rgba(0,0,0,0.08); }
+.feature-img-wrap img { width: 100%; height: auto; display: block; }
+
+/* Image placeholder: same frame and 4:3 ratio as the live images */
+.img-placeholder {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #dbe9f7 0%, #eef4fc 55%, #ffffff 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.img-placeholder span {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--primary); border: 1px dashed rgba(0,103,194,0.35); border-radius: 100px; padding: 6px 14px;
+}
+
+/* ─── MILIEU EDGE ─── */
+.edge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.edge-card {
+  background: white; border: 1px solid rgba(0,0,0,0.07);
+  border-radius: var(--radius-card); padding: 40px 32px;
+  transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+}
+/* Edge now sits on a white section, so the cards take the light grey */
+.bg-white .edge-card { background: var(--bg); }
+.edge-card:hover { box-shadow: 0 20px 56px rgba(0,0,0,0.07); border-color: rgba(0,103,194,0.18); transform: translateY(-4px); }
+.edge-icon {
+  width: 48px; height: 48px; border-radius: 12px; background: rgba(0,103,194,0.08);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+}
+.edge-icon svg { width: 22px; height: 22px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.edge-title { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; color: var(--black); margin-bottom: 12px; line-height: 1.15; }
+.edge-desc { font-size: 13.5px; color: var(--gray-mid); line-height: 1.62; }
+
+/* ─── FAQ ─── */
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid rgba(0,0,0,0.07); padding: 28px 0; }
+.faq-q {
+  font-size: 17px; font-weight: 700; color: var(--black);
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  letter-spacing: -0.02em; user-select: none;
+}
+.faq-icon {
+  width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,0.14);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: transform 0.25s, background 0.25s;
+  font-size: 16px; color: var(--gray-sub); font-weight: 400;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); background: var(--primary); border-color: var(--primary); color: white; }
+.faq-a {
+  font-size: 15px; color: var(--gray-mid); line-height: 1.65;
+  max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin-top 0.25s;
+}
+.faq-item.open .faq-a { max-height: 600px; margin-top: 16px; }
+
+/* Copy placeholder, to be replaced before launch */
+.ph { background: rgba(0,103,194,0.08); color: var(--primary); border-radius: 4px; padding: 1px 5px; }
+
+/* ─── CLOSING CTA ─── */
+.cta-section { background: var(--primary); text-align: center; padding: 120px 48px; }
+.cta-section .eyebrow { margin-bottom: 32px; }
+.cta-h2 {
+  font-size: clamp(34px, 4vw, 54px); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.06; color: white;
+  margin: 0 auto 20px; max-width: 680px;
+}
+.cta-sub { font-size: 17px; color: rgba(255,255,255,0.6); max-width: 420px; margin: 0 auto 40px; line-height: 1.65; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── FOOTER (pages.css) ─── */
+footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 30px; }
+.foot-logo { height: 28px; width: auto; display: block; margin-bottom: 4px; }
+.foot h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8A93AD; margin-bottom: 14px; }
+.foot a { display: block; font-size: 14px; color: #57617B; padding: 5px 0; }
+.foot a:hover { color: #2563EB; }
+.foot-bottom {
+  margin-top: 44px; padding-top: 22px; border-top: 1px solid #E6E9F2;
+  font-size: 13px; color: #8A93AD; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.foot-legal a:hover { color: #2563EB; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-image-wrap { max-width: 600px; }
+  .feature-grid { grid-template-columns: 1fr; gap: 48px; }
+  .feature-grid .feature-img-wrap { max-width: 600px; }
+  .feature-grid.img-right .feature-img-wrap { order: -1; }
+  .edge-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .section { padding: 64px 24px; }
+  .hero { padding: 120px 24px 64px; min-height: auto; }
+  .logos-label { padding: 0 24px; }
+  .cta-section { padding: 72px 24px; }
+  .edge-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  .hero-stat { border-right: none; padding-right: 0; margin-right: 0; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV (unchanged from the live site; product names fixed separately) -->
+<nav id="main-nav">
+  <a class="nav-logo-link" href="https://mili.eu/" aria-label="Milieu home">
+    <img src="img/milieu.svg" alt="Milieu" class="nav-logo">
+  </a>
+  <div class="nav-links" id="nav-links">
+    <div class="nav-item">
+      <span class="nav-link" role="button" tabindex="0" aria-haspopup="true">Our Solutions</span>
+      <div class="nav-dd">
+        <a href="https://mili.eu/canvas/">Canvas</a><a href="https://mili.eu/portraits/">Portraits</a><a href="https://mili.eu/templates/">Templates</a><a href="https://mili.eu/multibus/">Multibus</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link" role="button" tabindex="0" aria-haspopup="true">Insights</span>
+      <div class="nav-dd"><a href="https://mili.eu/research/">About our Research</a></div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link" role="button" tabindex="0" aria-haspopup="true">Content Hub</span>
+      <div class="nav-dd">
+        <a href="https://mili.eu/press/">Press Releases</a><a href="https://mili.eu/publications/">Publications</a><a href="https://mili.eu/blog/">Blog</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link" role="button" tabindex="0" aria-haspopup="true">About Us</span>
+      <div class="nav-dd"><a href="https://mili.eu/about/">About Milieu</a></div>
+    </div>
+  </div>
+  <div class="nav-actions">
+    <a href="https://mili.eu/contact/" class="btn btn-nav-outline">Contact us</a>
+    <a href="https://mili.eu/request-demo/" class="btn btn-primary">Request demo</a>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow eyebrow-dark"><span class="eyebrow-dot"></span>MiAudience</div>
+      <h1 class="hero-h1">Real-time audience profiling on demand</h1>
+      <p class="hero-sub">Profile any consumer group from Milieu's proprietary Southeast Asian panel and see who they are, what they care about and how they behave, without commissioning a new study</p>
+      <div class="hero-ctas">
+        <a href="https://mili.eu/request-demo/" class="btn btn-white btn-lg">Book a demo</a>
+        <a href="https://mili.eu/contact/" class="btn btn-outline-white btn-lg">Contact us</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-val">2M+</span><span class="hero-stat-label">Panellists</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">2,000+</span><span class="hero-stat-label">Trait variables</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">4,000+</span><span class="hero-stat-label">Media variables</span></div>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="img/miaudience-hero.jpg" alt="MiAudience audience profiling platform">
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos-section">
+  <p class="logos-label">Trusted by the brands and agencies that move markets</p>
+  <div class="logos-track-wrap">
+    <div class="logos-track">
+      <span class="logo-text">Google</span><span class="logo-text">Microsoft</span><span class="logo-text">Unilever</span><span class="logo-text">P&amp;G</span><span class="logo-text">Grab</span><span class="logo-text">Gojek</span><span class="logo-text">Sea Group</span><span class="logo-text">ByteDance</span>
+      <span class="logo-text">Google</span><span class="logo-text">Microsoft</span><span class="logo-text">Unilever</span><span class="logo-text">P&amp;G</span><span class="logo-text">Grab</span><span class="logo-text">Gojek</span><span class="logo-text">Sea Group</span><span class="logo-text">ByteDance</span>
+    </div>
+  </div>
+</div>
+
+<!-- USP 1 — light, image right -->
+<section class="section bg-light">
+  <div class="container">
+    <div class="feature-grid">
+      <div>
+        <div class="eyebrow eyebrow-primary">Plug-and-play insight</div>
+        <h2 class="feature-h2">From proprietary panel to plug-and-play insight</h2>
+        <p class="feature-body">MiAudience draws on more than 2 million Southeast Asian panel members, over 1 billion responses and 2,000+ trait variables, all ready to use. Filter by demographics, interests and behaviours, and your audience profile builds itself. No briefing, no fieldwork, no waiting</p>
+        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
+      </div>
+      <div class="feature-img-wrap">
+        <img src="img/miaudience-01.jpg" alt="MiAudience profiling data view">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP 2 — white, image left -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="feature-grid img-right">
+      <div class="feature-img-wrap">
+        <img src="img/miaudience-02.jpg" alt="MiAudience traits, media variables and responses">
+      </div>
+      <div>
+        <div class="eyebrow eyebrow-primary">Always current</div>
+        <h2 class="feature-h2">A living profile, not a snapshot</h2>
+        <p class="feature-body">Data refreshes continuously as new responses come in, so every profile reflects how your audience thinks today rather than last quarter. Results appear as clear visuals the moment you run them</p>
+        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP 3 — light, image right (new) -->
+<section class="section bg-light">
+  <div class="container">
+    <div class="feature-grid">
+      <div>
+        <div class="eyebrow eyebrow-primary">Follow-up surveys</div>
+        <h2 class="feature-h2">Found an interesting segment? Ask them directly</h2>
+        <p class="feature-body">Send a follow-up survey to any segment you build in MiAudience. You can go from spotting a pattern to understanding the reason behind it, with the same people</p>
+        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
+      </div>
+      <div class="feature-img-wrap img-placeholder" role="img" aria-label="Image placeholder">
+        <span>Image placeholder: follow-up survey</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MILIEU EDGE — white -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow eyebrow-primary">The Milieu Edge</div>
+      <h2 class="section-h2">The Milieu Edge</h2>
+    </div>
+    <div class="edge-grid">
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3 class="edge-title">See what makes a segment distinctive</h3>
+        <p class="edge-desc">Z-score analysis shows what sets your audience apart from everyone else, not just what describes them</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="edge-title">A 360° view of your audience</h3>
+        <p class="edge-desc">Get a holistic read on who your audience is in seconds, even from complex, multi-source data</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="edge-title">Layer it onto your own research</h3>
+        <p class="edge-desc">Combine MiAudience data with your custom studies to uncover insights your study alone wouldn't show</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ — light -->
+<section class="section bg-light">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow eyebrow-primary">FAQ</div>
+      <h2 class="section-h2">Frequently asked questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">What is MiAudience?<span class="faq-icon">+</span></div>
+        <div class="faq-a">MiAudience is Milieu's real-time audience profiling product. It gives you on-demand access to <span class="ph">[number]</span> up-to-date consumer data points, so you can understand who your audience is and what drives them without commissioning a new study each time.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How large is Milieu's Southeast Asia panel?<span class="faq-icon">+</span></div>
+        <div class="faq-a">MiAudience draws on Milieu's proprietary panel of more than 2 million Southeast Asian members. That scale lets you build robust segments and profile even fairly specific groups with confidence.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I build my own audience segments?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. You can create custom filters, run Z-score analysis to see what makes a group distinctive, and refine segments on demand, with 24/7 access.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How often is the data refreshed?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><span class="ph">[Refresh cadence, e.g. "Data updates as new responses arrive, so profiles always reflect the latest picture."]</span></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Who is MiAudience for?<span class="faq-icon">+</span></div>
+        <div class="faq-a">MiAudience suits brand, insights and strategy teams who need fast, current audience understanding for planning, segmentation and targeting, especially across Southeast Asian markets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="eyebrow eyebrow-dark">MiAudience</div>
+    <h2 class="cta-h2">See who your audience really is in seconds</h2>
+    <p class="cta-sub">Take the first step towards data-driven excellence. Contact Milieu today</p>
+    <div class="cta-btns">
+      <a href="https://mili.eu/request-demo/" class="btn btn-cta-white btn-lg">Book a demo</a>
+      <a href="https://mili.eu/contact/" class="btn btn-cta-outline btn-lg">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (unchanged from the live site) -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><img src="img/milieu.svg" alt="Milieu" class="foot-logo"></div>
+      <div class="foot"><h5>Our Solutions</h5>
+        <a href="https://mili.eu/canvas/">Canvas</a>
+        <a href="https://mili.eu/portraits/">Portraits</a>
+        <a href="https://mili.eu/templates/">Templates</a>
+        <a href="https://mili.eu/multibus/">Multibus</a>
+      </div>
+      <div class="foot"><h5>Content Hub</h5>
+        <a href="https://mili.eu/press/">Press Releases</a>
+        <a href="https://mili.eu/publications/">Publications</a>
+        <a href="https://mili.eu/blog/">Blog</a>
+      </div>
+      <div class="foot"><h5>Company</h5>
+        <a href="https://mili.eu/about/">About Milieu</a>
+        <a href="https://mili.eu/research/">About our Research</a>
+        <a href="https://mili.eu/contact/">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Milieu Insight. All rights reserved.</span>
+      <span class="foot-legal"><a href="https://mili.eu/privacy-policy/">Privacy Policy</a> · <a href="https://mili.eu/terms/">Terms of Use</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Nav shadow on scroll */
+  const nav = document.getElementById('main-nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Mobile menu */
+  document.getElementById('nav-toggle').addEventListener('click', e => {
+    const open = document.body.classList.toggle('nav-open');
+    e.currentTarget.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('#main-nav .nav-item > .nav-link').forEach(l => {
+    l.addEventListener('click', () => { if (window.innerWidth <= 1024) l.parentElement.classList.toggle('open'); });
+  });
+
+  /* FAQ accordion, one open at a time */
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
