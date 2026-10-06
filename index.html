@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MiAudience - Real-time Audience Profiling | Milieu</title>
+<title>MiAudience - Audience Intelligence | Milieu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -160,7 +160,7 @@ body.nav-open #main-nav .nav-toggle span:nth-child(3) { transform: translateY(-7
 }
 .hero-copy { max-width: 560px; }
 .hero-h1 {
-  font-size: clamp(40px, 5vw, 64px);
+  font-size: clamp(40px, 4.3vw, 56px);
   font-weight: 700; letter-spacing: -0.045em; line-height: 1.0;
   color: white; margin-bottom: 24px;
 }
@@ -224,17 +224,6 @@ body.nav-open #main-nav .nav-toggle span:nth-child(3) { transform: translateY(-7
 .feature-img-wrap { border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 40px rgba(0,0,0,0.08); }
 .feature-img-wrap img { width: 100%; height: auto; display: block; }
 
-/* Image placeholder: same frame and 4:3 ratio as the live images */
-.img-placeholder {
-  aspect-ratio: 4 / 3;
-  background: linear-gradient(135deg, #dbe9f7 0%, #eef4fc 55%, #ffffff 100%);
-  display: flex; align-items: center; justify-content: center;
-}
-.img-placeholder span {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--primary); border: 1px dashed rgba(0,103,194,0.35); border-radius: 100px; padding: 6px 14px;
-}
-
 /* ─── MILIEU EDGE ─── */
 .edge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .edge-card {
@@ -252,6 +241,8 @@ body.nav-open #main-nav .nav-toggle span:nth-child(3) { transform: translateY(-7
 .edge-icon svg { width: 22px; height: 22px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .edge-title { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; color: var(--black); margin-bottom: 12px; line-height: 1.15; }
 .edge-desc { font-size: 13.5px; color: var(--gray-mid); line-height: 1.62; }
+.audience-grid { grid-template-columns: repeat(2, 1fr); }
+.audience-grid .edge-desc { font-size: 15px; }
 
 /* ─── FAQ ─── */
 .faq-list { max-width: 720px; margin: 0 auto; }
@@ -311,6 +302,7 @@ footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; 
   .feature-grid.img-right .feature-img-wrap { order: -1; }
   .edge-grid { grid-template-columns: 1fr 1fr; }
 }
+@media (max-width: 768px) { .audience-grid { grid-template-columns: 1fr; } }
 @media (max-width: 768px) {
   .section { padding: 64px 24px; }
   .hero { padding: 120px 24px 64px; min-height: auto; }
@@ -364,20 +356,19 @@ footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; 
   <div class="hero-inner">
     <div class="hero-copy">
       <div class="eyebrow eyebrow-dark"><span class="eyebrow-dot"></span>MiAudience</div>
-      <h1 class="hero-h1">Real-time audience profiling on demand</h1>
-      <p class="hero-sub">Profile any consumer group from Milieu's proprietary Southeast Asian panel and see who they are, what they care about and how they behave, without commissioning a new study</p>
+      <h1 class="hero-h1">Audience intelligence,<br> built for your market.</h1>
+      <p class="hero-sub">Connected data on the people, brands and categories that matter in Southeast Asia, from our own panel across six markets</p>
       <div class="hero-ctas">
         <a href="https://mili.eu/request-demo/" class="btn btn-white btn-lg">Book a demo</a>
         <a href="https://mili.eu/contact/" class="btn btn-outline-white btn-lg">Contact us</a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><span class="hero-stat-val">Live</span><span class="hero-stat-label">In seconds</span></div>
-        <div class="hero-stat"><span class="hero-stat-val">2,000+</span><span class="hero-stat-label">Trait variables</span></div>
-        <div class="hero-stat"><span class="hero-stat-val">Refreshed</span><span class="hero-stat-label">Continuously</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">Our own</span><span class="hero-stat-label">Panel</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">Six</span><span class="hero-stat-label">Southeast Asian markets</span></div>
       </div>
     </div>
     <div class="hero-image-wrap">
-      <img src="img/miaudience-hero.jpg" alt="MiAudience audience profiling platform">
+      <img src="img/miaudience-hero.webp" alt="MiAudience audience intelligence platform">
     </div>
   </div>
 </section>
@@ -393,52 +384,60 @@ footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; 
   </div>
 </div>
 
-<!-- USP 1 — light, image right -->
+<!-- WHO IS IT FOR — light, white cards (new) -->
 <section class="section bg-light">
   <div class="container">
-    <div class="feature-grid">
-      <div>
-        <div class="eyebrow eyebrow-primary">Plug-and-play insight</div>
-        <h2 class="feature-h2">From proprietary panel to plug-and-play insight</h2>
-        <p class="feature-body">MiAudience draws on more than 2 million Southeast Asian panel members, over 1 billion responses and 2,000+ trait variables, all ready to use. Filter by demographics, interests and behaviours, and your audience profile builds itself. No briefing, no fieldwork, no waiting</p>
-        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
+    <div class="section-header">
+      <h2 class="section-h2">Who is it for?</h2>
+    </div>
+    <div class="edge-grid audience-grid">
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3 class="edge-title">For media and creative agencies</h3>
+        <p class="edge-desc">Walk into the pitch already knowing the audience. The data is ready in MiHQ the day the brief lands, with media habits built into every profile, so you can plan media and shape the creative idea without waiting on fieldwork.</p>
       </div>
-      <div class="feature-img-wrap">
-        <img src="img/miaudience-01.jpg" alt="MiAudience profiling data view">
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3 class="edge-title">For brands</h3>
+        <p class="edge-desc">Size your audience, understand what drives them, then ask them back. Specialist modules add depth in your category, and follow-up surveys go to the same people you've profiled.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- USP 2 — white, image left -->
+<!-- USP 1 — white, image right -->
 <section class="section bg-white">
+  <div class="container">
+    <div class="feature-grid">
+      <div>
+        <div class="eyebrow eyebrow-primary">Specialist modules</div>
+        <h2 class="feature-h2">Go deeper in the sectors you care about</h2>
+        <p class="feature-body">Add specialist modules to see your audience through the lens of your category</p>
+        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
+      </div>
+      <div class="feature-img-wrap">
+        <img src="img/miaudience-01.webp" alt="MiAudience profiling data view">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP 2 — light, image left -->
+<section class="section bg-light">
   <div class="container">
     <div class="feature-grid img-right">
       <div class="feature-img-wrap">
-        <img src="img/miaudience-02.jpg" alt="MiAudience traits, media variables and responses">
+        <img src="img/miaudience-02.webp" alt="MiAudience traits, media variables and responses">
       </div>
-      <div>
-        <div class="eyebrow eyebrow-primary">Always current</div>
-        <h2 class="feature-h2">A living profile, not a snapshot</h2>
-        <p class="feature-body">Data refreshes continuously as new responses come in, so every profile reflects how your audience thinks today rather than last quarter. Results appear as clear visuals the moment you run them</p>
-        <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- USP 3 — light, image right (new) -->
-<section class="section bg-light">
-  <div class="container">
-    <div class="feature-grid">
       <div>
         <div class="eyebrow eyebrow-primary">Follow-up surveys</div>
-        <h2 class="feature-h2">Found an interesting segment? Ask them directly</h2>
+        <h2 class="feature-h2">Found an interesting segment? Ask them back</h2>
         <p class="feature-body">Send a follow-up survey to any segment you build in MiAudience. You can go from spotting a pattern to understanding the reason behind it, with the same people</p>
         <a href="https://mili.eu/request-demo/" class="btn btn-primary">See it in action</a>
-      </div>
-      <div class="feature-img-wrap img-placeholder" role="img" aria-label="Image placeholder">
-        <span>Image placeholder: follow-up survey</span>
       </div>
     </div>
   </div>
@@ -461,17 +460,17 @@ footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; 
       </div>
       <div class="edge-card">
         <div class="edge-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 class="edge-title">A 360° view of your audience</h3>
-        <p class="edge-desc">Get a holistic read on who your audience is in seconds, even from complex, multi-source data</p>
-      </div>
-      <div class="edge-card">
-        <div class="edge-icon">
           <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <h3 class="edge-title">Layer it onto your own research</h3>
         <p class="edge-desc">Combine MiAudience data with your custom studies to uncover insights your study alone wouldn't show</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 class="edge-title">Ready whenever you are</h3>
+        <p class="edge-desc">Build and refine segments 24/7, on your own schedule</p>
       </div>
     </div>
   </div>
@@ -487,23 +486,23 @@ footer { background: #fff; border-top: 1px solid #E6E9F2; padding: 60px 0 40px; 
     <div class="faq-list">
       <div class="faq-item">
         <div class="faq-q">What is MiAudience?<span class="faq-icon">+</span></div>
-        <div class="faq-a">MiAudience is Milieu's real-time audience profiling product. It gives you on-demand access to <span class="ph">[number]</span> up-to-date consumer data points, so you can understand who your audience is and what drives them without commissioning a new study each time.</div>
+        <div class="faq-a">MiAudience is Milieu's audience intelligence product. It gives you a base audience profile in each market, covering demographics, attitudes and media habits, with specialist modules by sector, all explored in MiHQ.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">How large is Milieu's Southeast Asia panel?<span class="faq-icon">+</span></div>
-        <div class="faq-a">MiAudience draws on Milieu's proprietary panel of more than 2 million Southeast Asian members. That scale lets you build robust segments and profile even fairly specific groups with confidence.</div>
+        <div class="faq-q">Where does the data come from?<span class="faq-icon">+</span></div>
+        <div class="faq-a">From our own panel, run directly by Milieu in all six Southeast Asian markets.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Can I build my own audience segments?<span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes. You can create custom filters, run Z-score analysis to see what makes a group distinctive, and refine segments on demand, with 24/7 access.</div>
+        <div class="faq-q">Can I survey the people I find?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. You can send follow-up surveys to the same people you've profiled. <span class="ph">[Number]</span> credits are included with your subscription.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">How often is the data refreshed?<span class="faq-icon">+</span></div>
-        <div class="faq-a"><span class="ph">[Refresh cadence, e.g. "Data updates as new responses arrive, so profiles always reflect the latest picture."]</span></div>
+        <div class="faq-q">How is MiAudience priced?<span class="faq-icon">+</span></div>
+        <div class="faq-a">MiAudience is an annual subscription by market, with specialist modules as add-ons. Get in touch for pricing.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Who is MiAudience for?<span class="faq-icon">+</span></div>
-        <div class="faq-a">MiAudience suits brand, insights and strategy teams who need fast, current audience understanding for planning, segmentation and targeting, especially across Southeast Asian markets.</div>
+        <div class="faq-a">Media and creative agencies use it to win pitches and plan media. Brands use it to size, understand and follow up with an audience.</div>
       </div>
     </div>
   </div>

@@ -3,12 +3,12 @@
 A front-end mock of the new MiAudience page (replacing [mili.eu/portraits](https://mili.eu/portraits/)),
 built to sit seamlessly inside the live mili.eu site.
 
-**This is a mock-up.** Copy is from the "Mi Audience_Webpage" doc and may still change.
+**This is a mock-up.** Copy is from the "Mi Audience_Webpage-2" doc and may still change.
 
 ## What's in it
 
 - `index.html`: the page. Plain HTML, CSS and JS with no build step and no dependencies beyond the Archivo font from Google Fonts.
-- `img/`: the three current Portraits images (hero, USP 1, USP 2) and the Milieu logo.
+- `img/`: hero, USP 1 and USP 2 images (WebP, 4:3) and the Milieu logo.
 
 ## Design
 
@@ -17,11 +17,11 @@ Archivo, `#1A1A1A` hero, `#F1F1F1` / white alternating sections, `#0067C2` pill 
 
 ## Page structure
 
-1. Hero: "Real-time audience profiling on demand", stats 2M+ / 2,000+ / 4,000+
+1. Hero: "Audience intelligence, built for your market.", stats Our own panel / Six Southeast Asian markets
 2. Logo strip
-3. USP 1, Plug-and-play insight (light, current image)
-4. USP 2, Always current (white, current image)
-5. USP 3, Follow-up surveys (light, **image placeholder**) *new*
+3. Who is it for? Two cards: media and creative agencies, brands (light) *new*
+4. USP 1, Specialist modules (white, image)
+5. USP 2, Follow-up surveys (light, image)
 6. The Milieu Edge, 3 cards (white section, light grey cards)
 7. FAQ, 5 questions (light)
 8. Closing CTA (blue)
@@ -29,7 +29,5 @@ Archivo, `#1A1A1A` hero, `#F1F1F1` / white alternating sections, `#0067C2` pill 
 
 ## Still to do before launch
 
-- USP 3 image (4:3, same style as the other feature images)
-- FAQ "What is MiAudience?": number of data points (marked `[number]`)
-- FAQ "How often is the data refreshed?": refresh cadence answer
+- FAQ "Can I survey the people I find?": number of credits (marked `[Number]`)
 - Nav, footer and URL still say Portraits / `/portraits/`; these will be updated separately
