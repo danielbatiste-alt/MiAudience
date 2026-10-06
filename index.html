@@ -171,19 +171,19 @@ body.nav-open #main-nav .nav-toggle span:nth-child(3) { transform: translateY(-7
 .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
 .hero-stats { display: flex; flex-wrap: wrap; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.07); }
 .hero-stat {
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-direction: column; gap: 0;
   padding-right: 32px; margin-right: 32px; border-right: 1px solid rgba(255,255,255,0.08);
 }
 .hero-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
-.hero-stat-val { font-size: 22px; font-weight: 700; color: white; letter-spacing: -0.03em; line-height: 1; }
-.hero-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+/* both lines match the hero subline */
+.hero-stat-val, .hero-stat-label { font-size: clamp(15px, 1.6vw, 18px); font-weight: 400; line-height: 1.65; color: rgba(255,255,255,0.5); }
 .hero-image-wrap { position: relative; border-radius: 20px; overflow: hidden; }
 .hero-image-wrap img { width: 100%; height: auto; display: block; }
 
 /* ─── LOGOS STRIP ─── */
 .logos-section { background: white; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 40px 0; overflow: hidden; }
 .logos-label {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
   text-transform: uppercase; color: var(--gray-sub); margin-bottom: 28px; padding: 0 48px;
 }
 .logos-track-wrap { position: relative; overflow: hidden; }
