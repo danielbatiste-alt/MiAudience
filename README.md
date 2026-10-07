@@ -17,17 +17,19 @@ Archivo, `#1A1A1A` hero, `#F1F1F1` / white alternating sections, `#0067C2` pill 
 
 ## Page structure
 
-1. Hero: "Audience intelligence, built for your market.", stats Our own panel / Six Southeast Asian markets
-2. Logo strip
-3. Who is it for? Two cards: media and creative agencies, brands (light) *new*
-4. USP 1, Specialist modules (white, image)
-5. USP 2, Follow-up surveys (light, image)
-6. The Milieu Edge, 3 cards (white section, light grey cards)
-7. FAQ, 5 questions (light)
-8. Closing CTA (blue)
-9. Footer
+1. Hero: "MiAudience (formerly Portraits)", "Audience intelligence, built for your market", stats Our own panel / Six Southeast Asian markets
+2. Who is it for? Two cards: media and creative agencies, brands (light)
+3. USP 1, Specialist modules (white, image)
+4. USP 2, Follow-up surveys (light, image)
+5. The Milieu Edge, 3 cards: media habits, six markets, ready 24/7 (white section, light grey cards)
+6. FAQ, 5 questions (light)
+7. Closing CTA (blue): "See what your audience watches, believes and buys. Market by market", with an Explore MiReports link
+8. Footer
+
+The client logo strip is removed for launch until client permissions are confirmed (its styles are kept in the file).
 
 ## Still to do before launch
 
 - FAQ "Can I survey the people I find?": number of credits (marked `[Number]`)
+- "Explore MiReports" link in the closing CTA is a placeholder (`href="#"`): add the URL once the first report is confirmed, or remove it
 - Nav, footer and URL still say Portraits / `/portraits/`; these will be updated separately
