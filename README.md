@@ -31,5 +31,5 @@ The client logo strip is removed for launch until client permissions are confirm
 ## Still to do before launch
 
 - FAQ "Can I survey the people I find?": number of credits (marked `[Number]`)
-- "Explore MiReports" link in the closing CTA is a placeholder (`href="#"`): add the URL once the first report is confirmed, or remove it
+- "Explore MiReports" button (Specialist Modules section) and link (closing CTA) are placeholders (`href="#"`): add the URL once the first report is confirmed, or remove them
 - Nav, footer and URL still say Portraits / `/portraits/`; these will be updated separately
